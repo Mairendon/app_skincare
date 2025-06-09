@@ -11,3 +11,24 @@ export async function searchProduct(product_name) {
     return null;
   }
 }
+export async function generate_routine(products) {
+  try {
+    const response = await apiConnect.post("/routine", products);
+    return response.data.routine;
+  } catch (error) {
+    console.error("Error to generate routine", error);
+    return null;
+  }
+}
+export async function generateFullRoutine(productNames) {
+  try {
+    const response = await apiConnect.post(
+      "/products/generate_full_routine",
+      productNames
+    );
+    return response.data.routine;
+  } catch (error) {
+    console.error("Error generating full routine:", error);
+    return [];
+  }
+}

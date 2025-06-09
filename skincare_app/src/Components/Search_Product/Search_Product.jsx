@@ -12,7 +12,7 @@ function Search_Product() {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "100px" }}>
       <form onSubmit={(e) => e.preventDefault()}>
         <label>Product Name</label>
         <input
@@ -34,7 +34,10 @@ function Search_Product() {
             <div key={index}>
               <h3>{product.product_name || "No name"}</h3>
               <p>{product.brands}</p>
-              <p>{product.ingredients_text}</p>
+              {/* <p>{product.ingredients_text}</p> */}
+              <p>{product.product_type}</p>
+              <p>{product.categories_tags}</p>
+              <p>{product.categories}</p>
               <img
                 src={product.image_url}
                 alt={product.product_name}

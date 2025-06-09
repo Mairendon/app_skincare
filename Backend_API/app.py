@@ -5,7 +5,13 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncEngin
 from dotenv import load_dotenv
 
 from db import get_db, Base, engine
-from resources import router as router_products
+# from resources import router as router_products
+# from router.routine import router as router_routine
+
+from resources.mvp_resources.ingredients_resources import router as router_ingredients
+from resources.mvp_resources.product_resources import router as router_products
+from resources.mvp_resources.routine_resources import router as router_routines
+
 
 load_dotenv()
 app = FastAPI()
@@ -30,6 +36,9 @@ async def check_connection(db: AsyncSession = Depends(get_db)):
     raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
   
 app.include_router(router_products, prefix="/products")
+# app.include_router(router_routine, prefix="/routine")
+app.include_router(router_ingredients, prefix="/ingredients")
+app.include_router(router_routines, prefix="/routines")
   
 if __name__ == "__main__":
   import uvicorn
