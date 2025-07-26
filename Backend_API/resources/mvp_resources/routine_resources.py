@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 
 from typing import List
 from db import get_db
-from models import Routines
+from models import RoutinesModel
 
 from sqlalchemy.orm import Session, joinedload, selectinload
 from sqlalchemy.ext.asyncio import AsyncSession

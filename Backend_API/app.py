@@ -11,7 +11,8 @@ from db import get_db, Base, engine
 from resources.mvp_resources.ingredients_resources import router as router_ingredients
 from resources.mvp_resources.product_resources import router as router_products
 from resources.mvp_resources.routine_resources import router as router_routines
-
+from resources.mvp_resources.categories_resources import router as router_categories
+from resources.mvp_resources.users_resources import router as router_users
 
 load_dotenv()
 app = FastAPI()
@@ -39,6 +40,7 @@ app.include_router(router_products, prefix="/products")
 # app.include_router(router_routine, prefix="/routine")
 app.include_router(router_ingredients, prefix="/ingredients")
 app.include_router(router_routines, prefix="/routines")
+app.include_router(router_users, prefix="/users")
   
 if __name__ == "__main__":
   import uvicorn

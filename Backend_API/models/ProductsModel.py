@@ -5,21 +5,30 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from models.IngredientsModel import IngredientModel
+from models.RelationsTable import product_ingredient_association, product_category_association
+
+
 from db import Base
 
 def joinedload(*args, **kwargs):
     raise NotImplementedError
 
-class Product(Base):
+class ProductModel(Base):
   __tablename__ = "products"
 
   id = Column(Integer, primary_key=True, index=True)
   product_name = Column(String, nullable=False)
   barcode = Column(String, nullable=False)
+  brand = Column(String, nullable=True)
+  image_url = Column(Text, nullable=True)
   categories = Column(Text)
   ingredients_text = Column(Text)
   source = Column(String, default="obf" )
   created_at = Column(DateTime, server_default=func.now())
+
+  ingredients = relationship("IngredientModel", secondary=product_ingredient_association, back_populates="products")
+  categories = relationship("Category", secondary=product_category_association, back_populates="products")
 
   def json(self): 
     return {
@@ -29,8 +38,11 @@ class Product(Base):
       "categories": self.categories,
       "ingredients_text": self.ingredients_text,
       "source": self.source,
-      "created_at": self.created_at
+      "created_at": self.created_at,
+      "brand": self.brand,
+      "image_url": self.image_url
     }
+  
   @classmethod
   async def find_by_productname(cls, product_name:str, db: AsyncSession):
     try:

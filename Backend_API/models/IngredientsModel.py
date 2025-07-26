@@ -5,23 +5,30 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from models.RelationsTable import product_ingredient_association
+
 from db import Base
 
-class Ingredient(Base):
+class IngredientModel(Base):
   __tablename__ = "ingredients"
 
   id = Column(Integer, primary_key=True, index=True)
-  Ingredient_name = Column(String, nullable=False)
+  ingredient_name = Column(String, nullable=False)
   description = Column(Text)
-  created_at = Column(DateTime, server_default=func.now())
   ai_generated = Column(Boolean, default=False)
+  function = Column(String, nullable=True)
+  created_at = Column(DateTime, server_default=func.now())
+
+  products = relationship("ProductModel", secondary=product_ingredient_association, back_populates="ingredients")
 
   def json(self):
     return {
         "id": self.id,
-        "Ingredient_name": self.Ingredient_name,
+        "ingredient_name": self.ingredient_name,
         "description": self.description,
-        "created_at": self.created_at
+        "ai_generated": self.ai_generated,
+        "function": self.function,
+        "created_at": self.created_at,
     }
 
   @classmethod

@@ -1,7 +1,11 @@
 import httpx
+import logging
 from fastapi import APIRouter, HTTPException
 
+from models.ProductsModel import Product
+
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 @router.get("/search_by_name")
 async def search_by_name(product_name: str):
@@ -21,3 +25,4 @@ async def search_by_name(product_name: str):
 
     results = response.json().get("products", [])
     return {"results": results[:5]}  # Devuelve los primeros 5 resultados
+

@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 
 from typing import List
 from db import get_db
-from models import IngredientsModel
+from models.CategoriesModel import Category
 
 from sqlalchemy.orm import Session, joinedload, selectinload
 from sqlalchemy.ext.asyncio import AsyncSession

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, func
+from sqlalchemy import Column, Integer, String, Text, DateTime, func, ForeignKey
 from sqlalchemy.orm import relationship, joinedload
 from sqlalchemy.future import select
 from sqlalchemy.ext.declarative import declarative_base
@@ -10,20 +10,23 @@ from db import Base
 class Routine(Base):
   __tablename__ = "routines"
   id = Column(Integer, primary_key=True, index=True)
-  routine_name = Column(String, nullable=False)
-  step_order = Column(Integer, nullable=False)
+  user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+  routine_name = Column(String, nullable=False) 
   created_at = Column(DateTime, server_default=func.now())
 
+  user = relationship("UsersModel", back_populates="routines")
+  steps = relationship("RoutineStep", back_populates="routine", cascade="all, delete-orphan")
+
   def json(self):
-    return {
-        "id": self.id,
-        "routine_name": self.routine_name,
-        "step_order": self.step_order,
-        "created_at": self.created_at
-    }
+      return {
+          "id": self.id,
+          "routine_name": self.routine_name,
+          "steps": [step.json() for step in self.steps],
+          "created_at": self.created_at
+        }
 
   @classmethod
-  async def find_by_routinename(cls, routine_name:str, db: AsyncSession):
+  async def find_by_routinename(cls, routine_name: str, db: AsyncSession):
     try:
       result = await db.execute(select(cls).filter_by(routine_name=routine_name))
       return result.scalar().first()
