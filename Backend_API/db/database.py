@@ -25,7 +25,7 @@ AsyncSessionLocal = async_sessionmaker(bind=engine, expire_on_commit=False, clas
 
 Base = declarative_base()
 
-@asynccontextmanager
+# @asynccontextmanager
 async def get_db():
     async with AsyncSessionLocal() as session:
         yield session
