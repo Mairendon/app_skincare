@@ -13,16 +13,17 @@ class UsersModel(Base):
     email = Column(String, unique=True, nullable=False)
     full_name = Column(String, nullable=False)
     hashed_password = Column(String, nullable=False)
-    # is_active = Column(Integer, default=1)
+
+    active_routine = relationship("UserActiveRoutine", back_populates="user", cascade="all, delete-orphan")
     history = relationship("UserHistoryModel", back_populates="user", cascade="all, delete-orphan")
     routines = relationship("Routine", back_populates="user", cascade="all, delete-orphan")
-    
+
     def json(self):
         return {
             "id": self.id,
             "email": self.email,
             "full_name": self.full_name,
-            "history": [entry.json() for entry in self.history],
+            "history": [h.json() for h in self.history],
             "routines": [routine.json() for routine in self.routines]
             # "is_active": self.is_active
         }

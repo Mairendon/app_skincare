@@ -11,7 +11,7 @@ from resources.Auth.Auth import (
     decode_token, verify_password, 
     SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINS, ALGORITHM
     )
-from schemas.Schemas import (
+from schemas.UserShemas import (
     UserCreate, UserResponse, UserHistoryResponse, 
     RoutineResponse, RoutineStepResponse, UserLogin
     )

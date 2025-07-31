@@ -12,7 +12,7 @@ from resources.Auth.Auth import (
     SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINS, ALGORITHM
     )
 from resources.mvp_resources.users_resources import get_current_user
-from schemas.Schemas import UserResponse
+from schemas.UserShemas import UserResponse
 
 router = APIRouter()
 

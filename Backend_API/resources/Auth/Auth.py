@@ -6,11 +6,12 @@ from fastapi import HTTPException
 
 from db import get_db
 from models.UsersModel import UsersModel
-from schemas.Schemas import( 
-    UserCreate, UserResponse, UserHistoryResponse, 
-    RoutineResponse, RoutineStepResponse, UserLogin,
+from schemas.UserShemas import (
+    UserCreate,
+    UserLogin,
     TokenResponse
     )
+
 from jose import jwt, JWSError
 from passlib.context import CryptContext
 

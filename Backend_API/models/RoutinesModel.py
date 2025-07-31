@@ -16,6 +16,7 @@ class Routine(Base):
 
   user = relationship("UsersModel", back_populates="routines")
   steps = relationship("RoutineStep", back_populates="routine", cascade="all, delete-orphan")
+  active_users = relationship("UserActiveRoutine", back_populates="routine")
 
   def json(self):
       return {
