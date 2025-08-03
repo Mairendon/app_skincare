@@ -19,4 +19,4 @@ class IngredientResponse(BaseModel):
     ai_generated: bool
     products: List[dict] = []
     class Config:
-        orm_mode = True
+        from_attributes = True

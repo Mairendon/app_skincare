@@ -11,7 +11,7 @@ class RoutineStepResponse(BaseModel):
     product_id: int
     step_order: int
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class RoutineResponse(BaseModel):
     id: int
@@ -19,7 +19,7 @@ class RoutineResponse(BaseModel):
     routine_name: str
     steps: List[RoutineStepResponse] = []
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class RoutineCreate(BaseModel):
     user_id: int

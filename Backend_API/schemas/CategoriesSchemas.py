@@ -12,9 +12,9 @@ class CategoryResponse(BaseModel):
     id: int
     category_name: str
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class CategoryListResponse(BaseModel):
     categories: List[CategoryResponse]
     class Config:
-        orm_mode = True
+        from_attributes = True

@@ -30,7 +30,7 @@ class UserActiveRoutineResponse(BaseModel):
     routine_id: int
     routine_type: str
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UserActiveRoutineCreate(BaseModel):
     user_id: int
@@ -43,7 +43,7 @@ class UserHistoryResponse(BaseModel):
     user_id: int
     product_id: int
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # UserResponse (final step after all components defined)
 class UserResponse(BaseModel):
@@ -52,6 +52,6 @@ class UserResponse(BaseModel):
     full_name: str
     history: List[UserHistoryResponse] = []
     routines: List[RoutineResponse] = []
-    active_routine: Optional[UserActiveRoutineResponse] = None
+    active_routines: Optional[List[UserActiveRoutineResponse]] = None
     class Config:
-        orm_mode = True
+        from_attributes = True

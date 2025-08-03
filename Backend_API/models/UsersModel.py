@@ -14,7 +14,8 @@ class UsersModel(Base):
     full_name = Column(String, nullable=False)
     hashed_password = Column(String, nullable=False)
 
-    active_routine = relationship("UserActiveRoutine", back_populates="user", cascade="all, delete-orphan")
+    # UsersModel
+    active_routines = relationship("UserActiveRoutine", back_populates="user", cascade="all, delete-orphan")
     history = relationship("UserHistoryModel", back_populates="user", cascade="all, delete-orphan")
     routines = relationship("Routine", back_populates="user", cascade="all, delete-orphan")
 
@@ -24,6 +25,7 @@ class UsersModel(Base):
             "email": self.email,
             "full_name": self.full_name,
             "history": [h.json() for h in self.history],
+            "active_routines": [ar.json() for ar in self.active_routines],
             "routines": [routine.json() for routine in self.routines]
             # "is_active": self.is_active
         }

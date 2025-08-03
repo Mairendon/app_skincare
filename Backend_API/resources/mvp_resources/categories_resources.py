@@ -11,3 +11,11 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.future import select
 
 router = APIRouter()
+
+async def get_categories(db: AsyncSession = Depends(get_db)) -> List[Category]:
+    try:
+        result = await db.execute(select(Category).options(joinedload(Category.parent_category)))
+        categories = result.scalars().all()
+        return categories
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))

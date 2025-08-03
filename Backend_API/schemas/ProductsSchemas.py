@@ -28,4 +28,4 @@ class ProductResponse(BaseModel):
     ingredients: List[dict] = []
     categories: List[dict] = []
     class Config:
-        orm_mode = True
+        from_attributes = True

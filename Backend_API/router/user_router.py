@@ -16,19 +16,28 @@ from schemas.UserShemas import UserResponse
 
 router = APIRouter()
 
-
-@router.get("/users/{user_id}", response_model=UserResponse)
-async def get_user(user_id: int, db: AsyncSession = Depends(get_db)):
-    result = await db.execute(select(UsersModel).where(UsersModel.id == user_id))
-    user = result.scalars().first()
-    
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    
-    return user
+from sqlalchemy.orm import selectinload
 
 @router.get("/me", response_model=UserResponse)
 async def get_user_me(current_user: UsersModel = Depends(get_current_user)):
     return current_user
+
+@router.get("/users/{user_id}", response_model=UserResponse)
+async def get_user(user_id: int, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(
+        select(UsersModel)
+        .options(
+            selectinload(UsersModel.history),
+            selectinload(UsersModel.routines),
+            selectinload(UsersModel.active_routines)
+        )
+        .where(UsersModel.id == user_id)
+    )
+    user = result.scalars().first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return user
 
 

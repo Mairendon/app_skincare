@@ -14,6 +14,7 @@ from resources.mvp_resources.routine_resources import router as router_routines
 from resources.mvp_resources.categories_resources import router as router_categories
 from resources.mvp_resources.routine_steps_resources import router as router_routine_steps
 from resources.mvp_resources.user_history_resources import router as router_user_history
+from resources.mvp_resources.active_routine_resources import router as router_active_routine
 from router.user_router import router as router_users
 from resources.Auth.Auth import router as auth_router
 
@@ -39,6 +40,7 @@ async def check_connection(db: AsyncSession = Depends(get_db)):
   except Exception as e:
     raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
   
+app.include_router(auth_router, prefix="/auth")
 app.include_router(router_products, prefix="/products")
 # app.include_router(router_routine, prefix="/routine")
 app.include_router(router_ingredients, prefix="/ingredients")
@@ -46,8 +48,8 @@ app.include_router(router_routines, prefix="/routines")
 app.include_router(router_categories, prefix="/categories")
 app.include_router(router_user_history, prefix="/user_history")
 app.include_router(router_routine_steps, prefix="/routine_steps")
+app.include_router(router_active_routine, prefix="/active_routine")
 app.include_router(router_users, prefix="/users")
-app.include_router(auth_router, prefix="/auth")
   
 if __name__ == "__main__":
   import uvicorn
