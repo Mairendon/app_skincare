@@ -52,10 +52,10 @@ class ProductModel(Base):
       raise ValueError(f"Error to find product name: {e}")
     
   @classmethod
-  async def find_all(cls, db):
+  async def find_all(cls, db: AsyncSession):
     try:
-      result = await db.execute(select(cls).options(joinedload(cls.products)))
-      return result.scalars().all()
+        result = await db.execute(select(cls))
+        return result.scalars().all()
     except SQLAlchemyError as e:
       raise ValueError(f"Error to get all products: {e}")
     
